@@ -1,0 +1,23 @@
+meta {
+  name: 회원 가입
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{URL}}/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "aa@bb.com",
+    "password": "11111111",
+    "name": "CY",
+    "phone": "01011112222",
+    "address": "서울시 강남구 역삼동 123",
+    "type": "user",
+    "profileImage": "/files/00-sample/vgJ-kVfSCF.png"
+  }
+}

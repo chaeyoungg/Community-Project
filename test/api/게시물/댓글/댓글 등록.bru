@@ -1,0 +1,17 @@
+meta {
+  name: 댓글 등록
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL}}/posts/_id/replies
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "content": "댓글 달아봅니다."
+  }
+}
