@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
   key: "saveUser",
-  storeage: sessionStorage,
+  storage: sessionStorage,
 });
 
 export const memberState = atom({
