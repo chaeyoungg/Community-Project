@@ -1,5 +1,9 @@
 import Layout from "@components/layout/Layout";
+import CommentList from "@pages/community/CommentList";
+import Detail from "@pages/community/Detail";
 import Community from "@pages/community/Index";
+import List from "@pages/community/List";
+import New from "@pages/community/New";
 import Error from "@pages/Error";
 import Login from "@pages/user/Login";
 import Signup from "@pages/user/Signup";
@@ -15,28 +19,29 @@ const router = createBrowserRouter([
         index: true,
         element: <Community />,
       },
-      // {
-      //   path: ":type",
-      //   element: <List />,
-      // },
-      // {
-      //   path: ":type/:_id",
-      //   element: <Detail />,
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: <CommentList />,
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: ":type/new",
-      //   element: <New />,
-      // },
+      {
+        path: ":type",
+        element: <List />,
+      },
+      {
+        path: ":type/:_id",
+        element: <Detail />,
+        children: [
+          {
+            index: true,
+            element: <CommentList />,
+          },
+        ],
+      },
+      {
+        path: ":type/new",
+        element: <New />,
+      },
       // {
       //   path: ":type/:_id/edit",
       //   element: <Edit />,
       // },
+
       {
         path: "user/login",
         element: <Login />,
