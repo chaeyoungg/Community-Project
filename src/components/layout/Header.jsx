@@ -1,12 +1,15 @@
 import { memberState } from "@recoil/user/atoms";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
 function Header() {
   const [user, setUser] = useRecoilState(memberState);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     alert("로그아웃 되셨습니다.");
     setUser(null);
+    navigate("/");
   };
 
   console.log("user=>", user);
@@ -43,7 +46,10 @@ function Header() {
               <img
                 className="w-8 rounded-full mr-2"
                 src={`https://api.fesp.shop/${user.profileImage}`}
-                onError="this.onerror=null; this.src='default.jpg';"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/default-profile.png";
+                }}
               />
               {user.name}
               <button
