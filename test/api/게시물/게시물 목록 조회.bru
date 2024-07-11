@@ -5,12 +5,13 @@ meta {
 }
 
 get {
-  url: {{URL}}/posts?type={{name}}&page=3
+  url: {{URL}}/posts?type={{name}}&limit=10&page=2
   body: none
   auth: none
 }
 
 query {
   type: {{name}}
-  page: 3
+  limit: 10
+  page: 2
 }

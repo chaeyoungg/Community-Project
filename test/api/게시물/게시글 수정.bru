@@ -1,0 +1,18 @@
+meta {
+  name: 게시글 수정
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{URL}}/posts/436
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "수정테스트얍얍",
+    "content": "얍얍~"
+  }
+}
