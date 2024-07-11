@@ -2,20 +2,32 @@
 import Pagination from "@components/Pagination";
 import useFetch from "@hooks/useFetch";
 import ListItem from "@pages/community/ListItem";
-import { memberState } from "@recoil/user/atoms";
+import { memberState, typeState } from "@recoil/user/atoms";
+import { useEffect, useState } from "react";
 // import { useEffect } from "react";
 // import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 function List() {
-  const { type } = useParams();
+  // const { type } = useParams();
+  const location = useLocation();
+  // const type = "info";
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
   // const axios = useAxios();
   const user = useRecoilState(memberState);
-
+  const type = useRecoilValue(typeState);
   //fetch 훅을 통해 가져오기
-  const { data } = useFetch("/posts", type);
+  const { loading, data, error, refetch } = useFetch(
+    `/posts?type=${type}&limit=10&page=${page}`
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [page, type]);
+  // const { loading, data, error, refetch } = useFetch(`/posts`);
+  console.log("type => ", type);
 
   console.log("fetch리턴값=>", data);
 
@@ -43,7 +55,6 @@ function List() {
   //   queryFn: fetchData,
   // });
 
-  console.log("fetchdata=>", data);
   return (
     <main className="min-w-80 p-10">
       <div className="text-center py-4">
@@ -138,7 +149,7 @@ function List() {
 
             {/* 본문 출력 */}
             {data?.item?.map((item) => (
-              <ListItem key={item._id} type={type} />
+              <ListItem key={item._id} type={type} data={item} />
             ))}
             {/* <tr className="border-b border-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 ease-in-out">
               <td className="p-2 text-center">1</td>
@@ -172,6 +183,9 @@ function List() {
           <Pagination
             totalPage={data?.pagination?.totalPages}
             current={data?.pagination?.page}
+            setPage={setPage}
+            refetch={refetch}
+            type={type}
           />
         </div>
       </section>

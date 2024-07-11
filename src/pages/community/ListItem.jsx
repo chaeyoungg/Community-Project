@@ -1,10 +1,9 @@
-import useFetch from "@hooks/useFetch";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function ListItem({ type }) {
-  const { id } = useParams();
+function ListItem({ type, data }) {
+  // const { id } = useParams();
   const navigate = useNavigate();
-  const { data } = useFetch(`/posts/${id}`, type);
+
   return (
     <>
       <tr className="border-b border-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 ease-in-out">
@@ -12,7 +11,8 @@ function ListItem({ type }) {
         <td
           className="p-2 truncate indent-4 cursor-pointer"
           onClick={() =>
-            data && navigate(`/${type}/${data?._id}`, { state: data })
+            // data && navigate(`/${type}/${data?._id}`, { state: data })
+            data && navigate(`/${type}/${data?._id}`)
           }
         >
           {data?.title}
