@@ -1,15 +1,20 @@
-import { memberState } from "@recoil/user/atoms";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { memberState, typeState } from "@recoil/user/atoms";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 function Header() {
   const [user, setUser] = useRecoilState(memberState);
+  const setType = useSetRecoilState(typeState);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     alert("로그아웃 되셨습니다.");
     setUser(null);
     navigate("/");
+  };
+
+  const handleClick = (typeParam) => {
+    setType(typeParam);
   };
 
   console.log("user=>", user);
@@ -29,13 +34,19 @@ function Header() {
         <div className="w-auto order-2 text-base mt-4 md:mt-0">
           <ul className="flex items-center gap-6 uppercase">
             <li className="hover:text-amber-500 hover:font-semibold">
-              <a href="/info">정보공유</a>
+              <Link to="/info" onClick={() => handleClick("info")}>
+                정보공유
+              </Link>
             </li>
             <li className="hover:text-amber-500 hover:font-semibold">
-              <a href="/free">자유게시판</a>
+              <Link to="/free" onClick={() => handleClick("free")}>
+                자유게시판
+              </Link>
             </li>
             <li className="hover:text-amber-500 a:font-semibold">
-              <a href="/qna">질문게시판</a>
+              <Link to="/qna" onClick={() => handleClick("qna")}>
+                질문게시판
+              </Link>
             </li>
           </ul>
         </div>
