@@ -5,7 +5,7 @@ import CommentNew from "@pages/community/CommentNew";
 function CommentList({ id }) {
   // {{URL}}/posts/1/replies //게시물의 id로 넘김
 
-  const { data } = useFetch(`/posts/${id}/replies`);
+  const { data, refetch } = useFetch(`/posts/${id}/replies`);
   console.log("id=>", id);
 
   console.log("commentdata=>", data);
@@ -18,10 +18,10 @@ function CommentList({ id }) {
       </section>
 
       {data?.item?.map((listItem) => (
-        <CommentItem key={listItem._id} data={listItem} id={id} />
+        <CommentItem key={listItem._id} data={listItem} refetch={refetch} />
       ))}
       {/* <CommentItem data={data} /> */}
-      <CommentNew />
+      <CommentNew refetch={refetch} />
     </>
   );
 }

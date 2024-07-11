@@ -1,21 +1,24 @@
 import useAxios from "@hooks/useAxios.mjs";
 import { memberState } from "@recoil/user/atoms";
+import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
-function CommentItem({ data, id }) {
+function CommentItem({ data, refetch }) {
   const user = useRecoilState(memberState);
   const axios = useAxios();
+  const { _id } = useParams();
+
+  console.log();
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${id}/replies/${data._id}`);
+      await axios.delete(`/posts/${_id}/replies/${data._id}`);
+      alert("삭제되었습니다.");
+      refetch();
     } catch (err) {
       console.log(err.message);
     }
   };
-
-  console.log("user", user);
-  console.log("comment data=>", data);
 
   return (
     <>
