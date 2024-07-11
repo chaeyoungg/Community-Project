@@ -11,3 +11,9 @@ export const memberState = atom({
   default: null,
   effects: [persistAtom],
 });
+
+export const typeState = atom({
+  key: "typeState",
+  default: null,
+  effects: [persistAtom],
+});
