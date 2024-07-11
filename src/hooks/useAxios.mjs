@@ -47,7 +47,7 @@ function useAxios() {
             "로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?"
           );
           gotoLogin &&
-            navigate("/users/login", { state: { from: location.pathname } });
+            navigate("/user/login", { state: { from: location.pathname } });
           //navigate는 두개의 매개변수를 받는데, 1. 이동할 경로 2. (옵션) state는 이동 시 상태를 추가로 저장한다. (이전 페이지로 돌아가게 상태를 저장)
         } else {
           // refresh 토큰으로 access 토큰 재발급 요청

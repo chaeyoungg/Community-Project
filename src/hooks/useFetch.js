@@ -1,54 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-function useFetch(fetchParams, type = null) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+const API_SERVER = "https://api.fesp.shop";
 
-  const BASE_URL = "https://api.fesp.shop";
+const useFetch = (url, options = {}) => {
+  const [data, setData] = useState(null); // API 응답 데이터 상태
+  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [error, setError] = useState(null); // 에러 상태
 
-  useEffect(() => {
-    request(fetchParams, type);
-  }, []);
-
-  const request = async (fetchParams, paramType) => {
+  const fetchData = async () => {
+    setData(null);
+    setLoading(true);
+    setError(null);
     try {
-      let res;
-      if (type) {
-        console.log("타입 있음", type);
-        const url = new URL(BASE_URL + fetchParams);
-        url.search = new URLSearchParams({ type: paramType });
-        res = await fetch(url, {
-          header: {
-            "Content-Type": "application/json",
-          },
-        });
-      } else {
-        console.log("타입 없음");
-
-        res = await fetch(BASE_URL + fetchParams, {
-          header: {
-            "Content-Type": "application/json",
-          },
-        });
+      if (!url.startsWith("http")) {
+        url = API_SERVER + url;
       }
 
-      const jsonRes = await res.json();
-      if (jsonRes.ok) {
-        setError(null);
-        setData(jsonRes);
-      } else {
-        throw new Error(jsonRes.error.message);
+      console.log("fetchoptions", options);
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`2xx 이외의 응답: ${response.status}`);
       }
-      return jsonRes;
+
+      const result = await response.json();
+      setData(result);
     } catch (err) {
-      setError(error);
+      setError(err.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
-  return { isLoading, data, error };
-}
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { data, loading, error, refetch: fetchData };
+};
 
 export default useFetch;
-// const REFRESH_URL = "/auto/refresh";
