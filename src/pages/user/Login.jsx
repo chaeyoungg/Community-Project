@@ -1,7 +1,7 @@
 import useAxios from "@hooks/useAxios.mjs";
 import { memberState } from "@recoil/user/atoms";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 function Login() {
@@ -15,6 +15,10 @@ function Login() {
   // const [user, setUser] = useRecoilState(memberState);
   const axios = useAxios();
   const navigate = useNavigate();
+  const location = useLocation();
+  const prevLocation = location?.state?.from;
+
+  console.log("location", prevLocation);
 
   const onSubmit = async (formData) => {
     try {
@@ -31,7 +35,11 @@ function Login() {
       });
 
       alert(`반갑습니다. ${res.data.item.name}님!`);
-      navigate("/");
+      if (prevLocation) {
+        navigate(`${prevLocation}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       if (err.response.status === 403) {
         alert(err.response.data.message);

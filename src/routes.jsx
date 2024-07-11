@@ -1,6 +1,7 @@
 import Layout from "@components/layout/Layout";
 import CommentList from "@pages/community/CommentList";
 import Detail from "@pages/community/Detail";
+import Edit from "@pages/community/Edit";
 import Community from "@pages/community/Index";
 import List from "@pages/community/List";
 import New from "@pages/community/New";
@@ -37,11 +38,10 @@ const router = createBrowserRouter([
         path: ":type/new",
         element: <New />,
       },
-      // {
-      //   path: ":type/:_id/edit",
-      //   element: <Edit />,
-      // },
-
+      {
+        path: ":type/:_id/edit",
+        element: <Edit />,
+      },
       {
         path: "user/login",
         element: <Login />,
