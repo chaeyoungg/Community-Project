@@ -1,0 +1,16 @@
+meta {
+  name: 게시물 검색
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{URL}}/posts?type=info&keyword=요가
+  body: none
+  auth: none
+}
+
+query {
+  type: info
+  keyword: 요가
+}

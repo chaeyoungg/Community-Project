@@ -1,35 +1,41 @@
 // import useAxios from "@hooks/useAxios.mjs";
 import Pagination from "@components/Pagination";
+import Search from "@components/Search";
 import useFetch from "@hooks/useFetch";
 import ListItem from "@pages/community/ListItem";
 import { memberState, typeState } from "@recoil/user/atoms";
 import { useEffect, useState } from "react";
 // import { useEffect } from "react";
 // import { useQuery } from "react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 function List() {
-  // const { type } = useParams();
-  const location = useLocation();
+  // const { type } = useParams();s
   // const type = "info";
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState("");
   // const axios = useAxios();
   const user = useRecoilState(memberState);
   const type = useRecoilValue(typeState);
   //fetch 훅을 통해 가져오기
   const { loading, data, error, refetch } = useFetch(
-    `/posts?type=${type}&limit=10&page=${page}`
+    `/posts?type=${type}&limit=10&page=${page}&keyword=${keyword}`
   );
 
   useEffect(() => {
     refetch();
-  }, [page, type]);
+  }, [page, type, keyword]);
   // const { loading, data, error, refetch } = useFetch(`/posts`);
   console.log("type => ", type);
 
   console.log("fetch리턴값=>", data);
+
+  const handleSearch = (keyword) => {
+    setKeyword(keyword);
+    setPage(1);
+  };
 
   // useEffect(() => {
   //   getData();
@@ -64,7 +70,8 @@ function List() {
       </div>
       <div className="flex justify-end mr-4">
         {/* 검색 */}
-        <form
+        <Search onClick={handleSearch} />
+        {/* <form
           onSubmit={(event) => {
             event.preventDefault();
             location.href = "";
@@ -81,7 +88,7 @@ function List() {
           >
             검색
           </button>
-        </form>
+        </form> */}
         {/* 
         <Link
           to={`/${type}/new`}
